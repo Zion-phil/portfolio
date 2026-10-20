@@ -6,7 +6,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',          // Allows local testing
+    process.env.FRONTEND_URL          // Allows my live Vercel site
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 app.post('/api/contact', async (req, res) => {
