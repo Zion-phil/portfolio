@@ -14,6 +14,27 @@
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link rel="stylesheet" href="/assets/css/dark.css" />
     <link rel="stylesheet" href="/assets/css/responsive.css" />
+
+    <!-- Custom CSS to make navbar thinner and sticky -->
+    <style>
+      .nav-sec {
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+      }
+      
+      .navbar {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+      }
+
+      .bx-static {
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        backdrop-filter: blur(10px);
+        background-color: rgba(10, 10, 10, 0.85) !important;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
