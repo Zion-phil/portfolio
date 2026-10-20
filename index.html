@@ -15,24 +15,24 @@
     <link rel="stylesheet" href="/assets/css/dark.css" />
     <link rel="stylesheet" href="/assets/css/responsive.css" />
 
-    <!-- Custom CSS to make navbar thinner and sticky -->
+    <!-- Custom CSS to make navbar thinner (No background color changes) -->
     <style>
+      /* Target the specific container in your template */
       .nav-sec {
-        padding-top: 10px !important;
-        padding-bottom: 10px !important;
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
       }
       
+      /* Force the navbar itself to have no vertical padding */
       .navbar {
-        padding-top: 0.5rem !important;
-        padding-bottom: 0.5rem !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        min-height: auto !important;
       }
 
-      .bx-static {
-        position: sticky;
-        top: 0;
-        z-index: 999;
-        backdrop-filter: blur(10px);
-        background-color: rgba(10, 10, 10, 0.85) !important;
+      /* Make sure the logo fits nicely */
+      .navbar-brand img {
+        max-height: 40px; 
       }
     </style>
   </head>
