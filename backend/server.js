@@ -1,49 +1,50 @@
 import express from 'express';
 import cors from 'cors';
-import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: [
-    'http://localhost:5173',          // Allows local testing
-    process.env.FRONTEND_URL          // Allows my live Vercel site
-  ],
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 app.post('/api/contact', async (req, res) => {
   const { name, email, phone, subject, message } = req.body;
 
-  // Basic validation
   if (!name || !email || !message) {
     return res.status(400).json({ success: false, message: 'Please fill in all required fields.' });
   }
 
-  // Setup Nodemailer with your Gmail
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS, // This is an App Password, not your normal password
-    },
-  });
-
-  const mailOptions = {
-    from: email,
-    to: process.env.EMAIL_USER,
-    subject: `Portfolio Contact: ${subject || 'New Message'}`,
-    text: `You received a message from your portfolio.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\nMessage:\n${message}`,
-  };
-
   try {
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ success: true, message: 'Message sent successfully!' });
+    // Brevo API call (uses HTTPS port 443, so Render won't block it)
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': process.env.BREVO_API_KEY,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        sender: { name: 'Portfolio Contact', email: 'tsionphilipo6@gmail.com' },
+        to: [{ email: 'tsionphilipo6@gmail.com', name: 'Tsion' }],
+        subject: `Portfolio Contact: ${subject || 'New Message'}`,
+        htmlContent: `<p><strong>Name:</strong> ${name}</p>
+                      <p><strong>Email:</strong> ${email}</p>
+                      <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+                      <p><strong>Message:</strong></p>
+                      <p>${message}</p>`
+      })
+    });
+
+    if (response.ok) {
+      res.status(200).json({ success: true, message: 'Message sent successfully!' });
+    } else {
+      const errorData = await response.json();
+      console.error('Brevo error:', errorData);
+      res.status(500).json({ success: false, message: 'Failed to send email.' });
+    }
   } catch (error) {
-    console.error('Email error:', error);
+    console.error('Server error:', error);
     res.status(500).json({ success: false, message: 'Failed to send email.' });
   }
 });
