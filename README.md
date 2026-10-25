@@ -28,17 +28,27 @@ A modern, responsive personal portfolio website built with **React + Vite**. Fea
 
 ## 📂 Project Structure
 portfolio/
-├── backend/ # Node.js Express server for the contact form
-│ ├── server.js # Main backend entry point
-│ ├── .env.example # Template for environment variables
+├── backend/ 
+# Node.js Express server for the contact form
+│ ├── server.js 
+# Main backend entry point
+│ ├── .env.example 
+# Template for environment variables
 │ └── package.json
-├── public/ # Static assets (CSS, JS, Images)
-├── src/ # React Source Code
-│ ├── components/ # React components (Navbar, Hero, About, etc.)
-│ ├── App.jsx # Main React App component
-│ └── main.jsx # React entry point
-├── index.html # Vite HTML template
-├── package.json # Frontend dependencies
+├── public/ 
+# Static assets (CSS, JS, Images)
+├── src/
+ # React Source Code
+│ ├── components/
+ # React components (Navbar, Hero, About, etc.)
+│ ├── App.jsx 
+# Main React App component
+│ └── main.jsx 
+# React entry point
+├── index.html
+ # Vite HTML template
+├── package.json 
+# Frontend dependencies
 └── README.md
 
 ---
